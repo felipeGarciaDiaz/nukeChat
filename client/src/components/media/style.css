@@ -1,0 +1,84 @@
+@import url("https://fonts.googleapis.com/css2?family=Rajdhani:wght@300&display=swap");
+
+body {
+    background-color: #311633;
+    color: #ffffff;
+}
+#room_create_body {
+    margin-top: 20%;
+
+    font-family: "Rajdhani", sans-serif;
+    color: #ffffff;
+    background-color: #6a2c70;
+
+    border-radius: 5px;
+}
+#service_title {
+    padding-top: 15%;
+}
+#create_room {
+    margin-top: 10%;
+    margin-bottom: 5%;
+
+    padding: 3% 10% 3% 10%;
+    color: #ffffff;
+    background-color: #b83b5e;
+
+    font-size: 25px;
+    font-weight: 2;
+
+    border: none;
+    border-radius: 5px;
+
+    transition: transform 0.5s ease;
+    transform: scale(1);
+}
+#create_room:hover {
+    transition: transform 0.5s ease;
+    transform: scale(1.2);
+}
+
+#create_room:focus {
+    outline: none;
+}
+
+#room_join_body {
+    margin-top: 20%;
+
+    font-family: "Rajdhani", sans-serif;
+    color: #ffffff;
+    background-color: #6a2c70;
+
+    border-radius: 5px;
+}
+#choose_id {
+    width: 100%;
+    border: none;
+    background-color: #f7f7f7;
+    border-radius: 10px;
+    border-bottom: none;
+
+    line-height: 15px;
+    display: inline;
+}
+#join_room {
+    color: #ffffff;
+    background-color: #ff5733;
+
+    font-size: 25px;
+    font-weight: 2;
+
+    border: none;
+    border-radius: 5px;
+
+    width: 30%;
+    margin-top: 5%;
+    margin-bottom: 10%;
+    transition: transform 0.5s ease;
+    transform: scale(1);
+}
+#join_room:hover {
+    transition: transform 0.5s ease;
+    transform: scale(1.2);
+}
+/*https://colorhunt.co/palette/179350*/
