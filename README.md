@@ -10,7 +10,7 @@ The nuke button is what gives nuke chat its name, and what gives this program a 
 
 This was my first serious-ish project with reactJS and i wanted to build something that interested me and allowed me to play with various technologys.
 
-#Technology Uses:
+## Technology Uses:
 * Javascript
 * ReactJS -- using React HashRouter
 * Socket.io
