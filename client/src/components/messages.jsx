@@ -1,11 +1,18 @@
 import React, { Component } from "react";
-import socket from "./socket";
+import "./media/roomStyle.css";
+
 class Messages extends Component {
     render() {
         return (
-            <div className="col s12  inline">
-                <h6>{this.props.msg}</h6>
-            </div>
+            <React.Fragment>
+                <div className={this.props.group} id="message_space">
+                    <p id="tag_style">
+                        <b>{this.props.tag}</b>
+                    </p>
+                    <h6 id="message_text">{this.props.msg}</h6>
+                </div>
+                <br />
+            </React.Fragment>
         );
     }
 }
