@@ -78,7 +78,6 @@ class CreateRoom extends Component {
 
         socket.on("new-room", (ID) => {
             this.setState({ room: ID, roomMade: true });
-            socket.emit("join-room", ID);
         });
     };
     onJoinRoom = () => {
@@ -86,7 +85,6 @@ class CreateRoom extends Component {
         socket.emit("request-join-room", this.state.roomValue);
         socket.on("accept-requested-room", (roomVal) => {
             this.setState({ room: roomVal, roomMade: true });
-            socket.emit("join-room", roomVal);
         });
     };
 }
