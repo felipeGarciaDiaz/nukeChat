@@ -13,4 +13,6 @@ This was my first serious-ish project with reactJS and i wanted to build somethi
 ## Technology Uses:
 * Javascript
 * ReactJS -- using React HashRouter
+* NodeJS
 * Socket.io
+* MaterializeCSS
