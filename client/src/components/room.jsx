@@ -2,15 +2,27 @@ import React, { Component } from "react";
 import "./media/roomStyle.css";
 import Messages from "./messages";
 import socket from "./socket";
+let splitter = "splitteral32019kejaoe02918230qi10xkdjsplitter";
 class Room extends Component {
-    state = { messages: ["test"], value: "", currentRoomId: this.props.room, tag: "0" };
+    state = { messages: [], value: "", currentRoomId: this.props.room, userTag: null, sender: "green" };
     render() {
         return (
             <React.Fragment>
-                <p>{"Room ID | " + this.props.room}</p>
                 <div className="row">
+                    <h5 className="col s6" id="room_name_text">
+                        {"ID : " + this.props.room}
+                    </h5>
+
                     {this.state.messages.map((message) => (
-                        <Messages id={this.state.messages.length + 1} tempUniqueTag={this.state.tag} msg={message} />
+                        <React.Fragment>
+                            <Messages
+                                id="message"
+                                key={this.state.messages.length + 1}
+                                group={message.split(splitter)[0]}
+                                tag={message.split(splitter)[1]}
+                                msg={message.split(splitter)[2]}
+                            />
+                        </React.Fragment>
                     ))}
                     <div id="send_message" className="col s12">
                         <div className="col s3">
@@ -29,7 +41,7 @@ class Room extends Component {
                                 />
                             </div>
                             <div className="col s3">
-                                <button className="btn" id="submit_message" onClick={this.sendMessage}>
+                                <button className="btn" id="submit_message">
                                     Send
                                 </button>
                             </div>
@@ -49,21 +61,30 @@ class Room extends Component {
         e.target.reset();
     };
     nukeRoom = () => {
-        console.log("BOOM!");
+        socket.emit("request-nuke", this.state.currentRoomId);
     };
 
     componentDidMount = () => {
-        socket.on("new-message", (msg) => {
-            console.log(msg + " new");
-            this.state.messages.push(msg.tag + " : " + msg.value);
-            this.setState({ value: "" });
+        socket.on("unique-tag", (tag) => {
+            console.log("unique tag updated");
+            this.setState({ userTag: tag });
         });
 
-        console.log("component did catch");
-        /*socket.on("random-tag", (randomTag) => {
-            console.log("random tag recieved " + randomTag);
-            this.setState({ tag: randomTag });
-        });*/
+        socket.on("new-message", (msg) => {
+            let uColor = "col s8 offset-s4 inline";
+            console.log(msg.tag, this.state.userTag);
+            if (msg.tag === this.state.userTag) {
+                uColor = "col s8 offset-s4 inline";
+            } else {
+                uColor = "col s8 inline";
+            }
+
+            this.state.messages.push(uColor + splitter + msg.tag + ": " + splitter + msg.value);
+            this.setState({ value: "" });
+        });
+        socket.on("nuke-room", () => {
+            window.location.reload(true);
+        });
     };
 }
 export default Room;
