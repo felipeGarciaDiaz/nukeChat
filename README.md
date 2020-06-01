@@ -16,3 +16,5 @@ This was my first serious-ish project with reactJS and i wanted to build somethi
 * NodeJS
 * Socket.io
 * MaterializeCSS
+
+:)
