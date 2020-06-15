@@ -66,13 +66,11 @@ class Room extends Component {
 
     componentDidMount = () => {
         socket.on("unique-tag", (tag) => {
-            console.log("unique tag updated");
             this.setState({ userTag: tag });
         });
 
         socket.on("new-message", (msg) => {
             let uColor = "col s8 offset-s4 inline";
-            console.log(msg.tag, this.state.userTag);
             if (msg.tag === this.state.userTag) {
                 uColor = "col s8 offset-s4 inline";
             } else {
