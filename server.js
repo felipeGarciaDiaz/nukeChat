@@ -26,11 +26,9 @@ app.get("/", function (req, res) {
 });
 
 io.on("connection", function (socket) {
-    console.log("user connected");
 
     socket.on("create-room", function (data) {
         let randRoomID = crypto.randomBytes(4).toString("hex");
-        console.log("Room " + randRoomID + " is being generated...");
         io.to(socket.id).emit("new-room", randRoomID);
         io.to(socket.id).emit("unique-tag", uniqueTag);
 
@@ -39,7 +37,6 @@ io.on("connection", function (socket) {
 
     const uniqueTag = crypto.randomBytes(3).toString("hex");
     socket.on("send-message", function (msg) {
-        console.log("msg: " + msg.value, msg.currentRoomId, msg.tag);
 
         messageLink = {
             value: msg.value,
@@ -56,7 +53,6 @@ io.on("connection", function (socket) {
     });
 
     socket.on("request-nuke", function (roomID) {
-        console.log("nuke initiated");
         io.in(roomID).emit("nuke-room");
     });
 });
