@@ -1,11 +1,24 @@
 const express = require("express");
 const app = express();
-const http = require("http").Server(app);
-const io = require("socket.io")(http);
+const https = require("https");
+const fs = require("fs");
+
+let server = https.createServer({
+    key: fs.readFileSync("privkey.pem"),
+    cert: fs.readFileSync("fullchain.pem"),
+    requestCert: true,
+    rejectUnauthorized: false
+},app);
+
+const io = require("socket.io").listen(server);
 const path = require("path");
 const crypto = require("crypto");
 
-const PORT = 60;
+const PORT = 4431;
+server.listen(PORT, ()=>{
+    console.log("secure server created using port: " + PORT);
+});
+
 app.use(express.static(path.join(__dirname, "client/build")));
 
 app.get("/", function (req, res) {
@@ -19,16 +32,15 @@ io.on("connection", function (socket) {
         let randRoomID = crypto.randomBytes(4).toString("hex");
         console.log("Room " + randRoomID + " is being generated...");
         io.to(socket.id).emit("new-room", randRoomID);
+        io.to(socket.id).emit("unique-tag", uniqueTag);
+
         socket.join(randRoomID);
     });
 
-    socket.on("join-room", function (id) {
-        console.log("random tag sent");
-        io.to(socket.id).emit("random-tag", crypto.randomBytes(2).toString("hex"));
-    });
     const uniqueTag = crypto.randomBytes(3).toString("hex");
     socket.on("send-message", function (msg) {
         console.log("msg: " + msg.value, msg.currentRoomId, msg.tag);
+
         messageLink = {
             value: msg.value,
             tag: uniqueTag,
@@ -37,12 +49,14 @@ io.on("connection", function (socket) {
     });
 
     socket.on("request-join-room", function (roomVal) {
-        io.to(socket.id).emit("random-tag", crypto.randomBytes(2).toString("hex"));
         io.to(socket.id).emit("accept-requested-room", roomVal);
+        io.to(socket.id).emit("unique-tag", uniqueTag);
+
         socket.join(roomVal);
     });
-});
 
-http.listen(PORT, function () {
-    console.log("server started using port: " + PORT);
+    socket.on("request-nuke", function (roomID) {
+        console.log("nuke initiated");
+        io.in(roomID).emit("nuke-room");
+    });
 });
