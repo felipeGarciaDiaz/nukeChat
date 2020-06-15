@@ -81,7 +81,6 @@ class CreateRoom extends Component {
         });
     };
     onJoinRoom = () => {
-        console.log("submitted");
         socket.emit("request-join-room", this.state.roomValue);
         socket.on("accept-requested-room", (roomVal) => {
             this.setState({ room: roomVal, roomMade: true });
